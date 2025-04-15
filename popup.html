@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tab Saver</title>
+    <style>
+        body {
+            width: 400px;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        h2 {
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .tab-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 10px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .tab-list::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            position: relative;
+            background-color: #2a2a2a;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .tab-item:hover {
+            background-color: #3a3a3a;
+        }
+        .tab-title {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            color: #ffffff;
+            margin: 0 10px;
+        }
+        .tab-favicon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+        .delete-button {
+            background-color: #ff4444;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 12px;
+            transition: background-color 0.2s;
+        }
+        .delete-button:hover {
+            background-color: #ff0000;
+        }
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .search-box::placeholder {
+            color: #666;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #555;
+        }
+        .preview-box {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            margin-left: 10px;
+        }
+        .preview-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        .preview-url {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+        .preview-snippet {
+            color: #ccc;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .preview-screenshot {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .preview-notes {
+            margin-top: 8px;
+            padding: 8px;
+            background: #333;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        .preview-notes textarea {
+            width: 100%;
+            height: 60px;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 8px;
+            color: #fff;
+            resize: none;
+            font-size: 12px;
+        }
+        .preview-notes textarea:focus {
+            outline: none;
+            border-color: #555;
+        }
+        .preview-notes button {
+            background: #444;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .preview-notes button:hover {
+            background: #555;
+        }
+        .no-tabs {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-size: 14px;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .filter-button {
+            background: #2a2a2a;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .filter-button:hover {
+            background: #3a3a3a;
+        }
+        .filter-button.active {
+            background: #444;
+            border-color: #555;
+        }
+        .category-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            background: #444;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .screenshot-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.2s;
+        }
+        .screenshot-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Tab Saver</h2>
+        <button id="screenshotButton" class="screenshot-button">Take Screenshot</button>
+    </div>
+    <input type="text" id="searchBox" class="search-box" placeholder="Search saved tabs...">
+    <div class="filters">
+        <button class="filter-button" data-filter="all">All</button>
+        <button class="filter-button" data-filter="recent">Recent</button>
+        <button class="filter-button" data-filter="frequent">Frequent</button>
+        <button class="filter-button" data-filter="old">Old</button>
+    </div>
+    <div class="tab-list" id="tabList">
+        <!-- Tabs will be populated here -->
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html> 
