@@ -37,3 +37,4 @@ The extension consists of the following files:
 ## License
 
 MIT License 
+![image](https://github.com/user-attachments/assets/b70cd2f2-efc0-4b5c-a5c0-c76bef6e96cd)
