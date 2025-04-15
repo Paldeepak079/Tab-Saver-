@@ -17,15 +17,7 @@ A Chrome extension that helps you save and manage your important browser tabs.
 3. Enable "Developer mode" in the top right corner
 4. Click "Load unpacked" and select the extension directory
 5. The extension icon should appear in your Chrome toolbar
-
-## Usage
-
-1. Click the extension icon in your Chrome toolbar
-2. Enter a title for your note (optional)
-3. Check the boxes next to the tabs you want to save
-4. Click "Save Selected Tabs"
-5. Your tabs will be saved and can be accessed later
-
+ 
 ## Development
 
 The extension consists of the following files:
@@ -34,8 +26,8 @@ The extension consists of the following files:
 - `popup.js`: Extension logic
 - `images/`: Icon files
 
-## License
-MIT License 
+ ## Images
+ 
 ![Screenshot 2025-04-16 002437](https://github.com/user-attachments/assets/e723369a-0291-4f6b-bd44-39cd8fa57bb3)
 
 ![image](https://github.com/user-attachments/assets/b70cd2f2-efc0-4b5c-a5c0-c76bef6e96cd)
