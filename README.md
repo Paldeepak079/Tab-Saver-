@@ -35,6 +35,7 @@ The extension consists of the following files:
 - `images/`: Icon files
 
 ## License
-
 MIT License 
+![Screenshot 2025-04-16 002437](https://github.com/user-attachments/assets/e723369a-0291-4f6b-bd44-39cd8fa57bb3)
+
 ![image](https://github.com/user-attachments/assets/b70cd2f2-efc0-4b5c-a5c0-c76bef6e96cd)
